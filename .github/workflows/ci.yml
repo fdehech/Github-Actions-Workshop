@@ -7,32 +7,33 @@ on:
     branches: [ "main" , "new-pipeline"]
 
 jobs:
-  TestJob:
-    runs-on: ubuntu-latest
+    lint:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+          - name: Setup Node
+            uses: actions/setup-node@v4
+            with:
+                node-version: '20'
+                cache: "npm"
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+          - name: Install dependencies
+            run: npm ci
+          - name: Lint
+            run: npm run lint --if-present
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Test
-        run: npm test --if-present
-      # If you have lint:
-      #- name: Lint
-      #  run: npm run lint --if-present
-
-      # If you have tests:
-      #- name: Test
-      # run: npm test --if-present
-
-      # If you have a build step (common in TS or frontend):
-      #- name: Build
-      # run: npm run build --if-present
+    test:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout
+            uses : actions/checkout@v4
+          - name: Node Setup
+            uses : actions/setup-node@v4
+            with:
+                node-version: '20'
+                cache: "npm"
+          - name: Install dependencies
+            run: npm ci
+          - name: Test
+            run: npm test --if-present
