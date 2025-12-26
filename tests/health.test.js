@@ -8,7 +8,7 @@ describe("Endpoint TEST : GET /health", () => {
 });
 
 describe("Root Endpoint Test /", ()=> {
-    it("Returns Hello World", () => {
-        request(app).get("/").expect("Hello World!");
+    it("Returns Hello World", async () => {
+    await request(app).get("/").expect("Hello World!");
     })
 })
